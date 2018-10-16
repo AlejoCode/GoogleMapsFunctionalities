@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Save a Place</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+<!--   <style>
+      /* Always set the map height explicitly to define the size of the div
+      * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style> -->
+
+<!--     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">      
+</script> -->
+
+</head>
+<body>
+
+  
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places">
+  </script>
+
+  <script type="text/javascript">
+    google.maps.event.AddDomListener(window, 'load', intialize);
+    function intialize() {
+      var autocomplete = new google.maps.places.Autocomplete(document.getElementById('txtautocomplete'));
+
+      google.maps.event.addListener(autocomplete,'place_changed',function (){
+        var place = autocomplete.getPlace();
+        var location = "<b>Address</b>: " + place.formatted_address + "<br/>";
+        location += "<b>Latitude</b>: " + place.geometry.location.A + "<br/>";
+        location += "<b>Longitude</b>: " + place.geometry.location.F;
+        document.getElementById('lblresult').innerHTML = location
+      });
+    };
+  </script>
+
+  <span>Location: </span><input type="text" id="txtautocomplete" style="width:200px" placeholder="Enter the Address" />
+
+  <br>
+  <br>
+
+  <label id="lblresult"></label>
+
+  <!--   <div id="map"></div> -->
+
+<!--   <script>
+    var map;
+    function initMap() {
+        // Constructor creates a new map - only center and zoom are required.
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 12.971599, lng: 77.594563},
+          zoom: 13
+        });
+
+        var marker = new google.maps.Marker({
+          position: {
+            lat: 12.971599,
+            lng: 77.594563
+          }, 
+          map: map,
+
+        });
+
+
+      }
+    </script> -->
+
+
+
+  </body>
+  </html>

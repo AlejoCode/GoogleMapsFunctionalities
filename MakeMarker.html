@@ -1,0 +1,60 @@
+<style>
+#map-canvas{
+	width: 600px;
+	height: 600px;
+}
+</style>
+
+<input type="text" id="mapsearch" placeholder="Search" size="50">
+<input type="text" id="latitude" placeholder="Latitude"/>
+<input type="text" id="longitude" placeholder="Longitude"/>
+<div id="map-canvas"></div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDa2rEMiUF99jXnA7Xo3ShDpd2JpxhltEM&libraries=places" type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">
+</script>
+
+<script type="text/javascript">
+	//Initialize the map
+	var myLatlng = new google.maps.LatLng(30.203733795707947,-97.67049547109377);
+	var map = new google.maps.Map(document.getElementById('map-canvas'),{
+		center: myLatlng,
+		zoom: 4
+	});
+	//Initialize the marker
+	var marker = new google.maps.Marker({
+		position: myLatlng,
+		map:map,
+		draggable: true
+	});
+
+	$('#latitude').val(marker.getPosition().lat());
+	$('#longitude').val(marker.getPosition().lng());
+	//Initialize SearchBar
+	var searchBox = new google.maps.places.SearchBox(document.getElementById('mapsearch'));
+	//Place change event on search box
+	google.maps.event.addListener(searchBox, 'places_changed' ,function(){
+		//console.log(searchBox.getPlaces());
+		var places = searchBox.getPlaces();
+		//bound
+		var bounds = new google.maps.LatLngBounds();
+		var i, place;
+
+		for(i=0; place=places[i]; i++){
+			//console.log(place.geometry.location);
+			bounds.extend(place.geometry.location);
+			//Set New Marker Position
+			marker.setPosition(place.geometry.location);
+		}
+
+		map.fitBounds(bounds);
+		$('#latitude').val(marker.getPosition().lat());
+		$('#longitude').val(marker.getPosition().lng());
+	});
+
+	google.maps.event.addListener(marker, 'dragend', function (event) {
+		$('#latitude').val(marker.getPosition().lat());
+		$('#longitude').val(marker.getPosition().lng());
+	});
+
+</script>
